@@ -1,19 +1,18 @@
-const base_url = "https://gallica.bnf.fr";
-
-class GallicaIiifUrlParser {
+export default class GallicaIiifUrlParser {
     constructor(url_string) {
         if (!GallicaIiifUrlParser.canParse(url_string)) {
             throw new Error("Invalid Gallica IIIF URL");
         }
-        this.url = new URL(url_string, base_url);
+        this.url = new URL(url_string, GallicaIiifUrlParser.BASE_URL);
     }
+    static BASE_URL = "https://gallica.bnf.fr";
 
     static canParse(url_string) {
-        if (!URL.canParse(url_string, base_url)) {
+        if (!URL.canParse(url_string, GallicaIiifUrlParser.BASE_URL)) {
             return false;
         }
 
-        const url = new URL(url_string, base_url);
+        const url = new URL(url_string, GallicaIiifUrlParser.BASE_URL);
         return (url.hostname === "gallica.bnf.fr" && /\/ark:\/12148\/[\da-z]+/i.test(url.pathname));
     }
 
@@ -42,7 +41,7 @@ class GallicaIiifUrlParser {
         if (this.viewNumber === null) {
             return null;
         }
-        return `${base_url}${this.arkIdentifier}/f${this.viewNumber}.item`;
+        return `${GallicaIiifUrlParser.BASE_URL}${this.arkIdentifier}/f${this.viewNumber}.item`;
     }
 
     isGallicaView() {
@@ -57,7 +56,7 @@ class GallicaIiifUrlParser {
         if (this.viewNumber === null) {
             return null;
         }
-        return `${base_url}/iiif${this.arkIdentifier}/f${this.viewNumber}/${region}/${size}/${rotation}/${quality}.${format}`;
+        return `${GallicaIiifUrlParser.BASE_URL}/iiif${this.arkIdentifier}/f${this.viewNumber}/${region}/${size}/${rotation}/${quality}.${format}`;
     }
 
     get iiifInfoUrl() {
@@ -65,7 +64,7 @@ class GallicaIiifUrlParser {
             return null;
         }
 
-        return `${base_url}/iiif${this.arkIdentifier}/f${this.viewNumber}/info.json`;
+        return `${GallicaIiifUrlParser.BASE_URL}/iiif${this.arkIdentifier}/f${this.viewNumber}/info.json`;
     }
 
     isInfoJson() {
@@ -73,7 +72,7 @@ class GallicaIiifUrlParser {
     }
 
     get iiifManifestUrl() {
-        return `${base_url}/iiif${this.arkIdentifier}/manifest.json`;
+        return `${GallicaIiifUrlParser.BASE_URL}/iiif${this.arkIdentifier}/manifest.json`;
     }
 
     isManifest() {
