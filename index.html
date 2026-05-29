@@ -9,6 +9,7 @@
         #viewer {
             width: 800px;
             height: 600px;
+            border: 1px solid black;
         }
     </style>
     
@@ -29,9 +30,18 @@
             id: "viewer",
             prefixUrl: "openseadragon-bin-6.0.2/images/",
             //drawer: "canvas",
-            tileSources: "https://gallica.bnf.fr/iiif/ark:/12148/btv1b52517119w/f133/info.json"
+            tileSources: "https://gallica.bnf.fr/iiif/ark:/12148/btv1b52517119w/f133/info.json",
+            showNavigator: true
         }
        );
+
+       viewer.addHandler("open", ()=>{
+        console.log("Image chargée ");
+       });
+
+       viewer.addHandler("open-failed", (event)=>{
+        console.error(event);
+       });
     </script>
 </body>
 </html>
